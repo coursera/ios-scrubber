@@ -28,7 +28,7 @@ struct EventItemConstraints {
 class ScrubberBar: UIView {
     
     // Public Properties
-    /** 0->1 value for the extent of the slider which has been buffered **/
+    /** 0->1 value for the extent of the buffer bar **/
     var bufferIndex: Float = 0
     var bufferFill: UIView
     let minBufferWidth: CGFloat = 3

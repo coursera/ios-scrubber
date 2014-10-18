@@ -219,7 +219,7 @@ public protocol ScrubberControlEventsDelegate {
             ScrubberBarEventItem(index: 0.3, color: UIColor.greenColor()),
             ScrubberBarEventItem(index: 0.5, color: UIColor.yellowColor(), completionClosure: {
                 dispatch_async(dispatch_get_main_queue(), {
-                    let alertView = UIAlertView(title: "Slider Event Fired", message: "Item fired at index 0.5" , delegate: nil, cancelButtonTitle: "Okay")
+                    let alertView = UIAlertView(title: "Scrubber Event Fired", message: "Item fired at index 0.5" , delegate: nil, cancelButtonTitle: "Okay")
                     alertView.show()
                 })
             }),
