@@ -12,6 +12,7 @@
 * Buffer fill bar to indicate amount of an item (Ex: video) has been downloaded
 * Dynamic scrubber element responds to user drag gestures
 * Ability to add events on the ScrubberBar which can execute closures when scrubber element surpasses their index
+
 ![ScrubberEvent Demo](/readme_images/scrubberEventFire.gif?raw=true)
 
 ## Known Issues
