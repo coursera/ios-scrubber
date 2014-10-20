@@ -9,19 +9,20 @@
 import UIKit
 
 struct EventItemConstraints {
-    let leading: NSLayoutConstraint
+    let centerX: NSLayoutConstraint
+    let centerY: NSLayoutConstraint
     let height: NSLayoutConstraint
     let width: NSLayoutConstraint
-    let center: NSLayoutConstraint
-    init(leading: NSLayoutConstraint, height: NSLayoutConstraint, width: NSLayoutConstraint, center: NSLayoutConstraint) {
-        self.leading = leading
+    
+    init(centerX: NSLayoutConstraint, centerY: NSLayoutConstraint, height: NSLayoutConstraint, width: NSLayoutConstraint) {
+        self.centerX = centerX
+        self.centerY = centerY
         self.height = height
         self.width = width
-        self.center = center
     }
     
     func asList() -> Array<NSLayoutConstraint> {
-        return [leading, height, width, center]
+        return [centerX, centerY, height, width]
     }
 }
 
@@ -118,23 +119,23 @@ class ScrubberBar: UIView {
             
             let eventItemDiameter = frame.height - 4*borderWidth
             event.layer.cornerRadius = eventItemDiameter/2
-            let leadingValue = leadingValueForItem(eventItemDiameter, index: event.index)
+            let centerValue = centerValueForItem(event.index)
             if let eventConstraints = eventConstraintDictionary[event] {
-                eventConstraints.leading.constant = leadingValue
+                eventConstraints.centerX.constant = centerValue
                 eventConstraints.height.constant = eventItemDiameter
                 eventConstraints.width.constant = eventItemDiameter
                 continue
             }
             
-            var leadingConstraint = NSLayoutConstraint(item: event, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: leadingValue)
+            var centerXConstraint = NSLayoutConstraint(item: event, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: centerValue)
+            
+            var centerYConstraint = NSLayoutConstraint(item: event, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0)
             
             var heightConstraint = NSLayoutConstraint(item: event, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: eventItemDiameter)
             
             var widthConstraint = NSLayoutConstraint(item: event, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: eventItemDiameter)
             
-            var centerConstraint = NSLayoutConstraint(item: event, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0)
-            
-            let eventConstraints = EventItemConstraints(leading: leadingConstraint, height: heightConstraint, width: widthConstraint, center: centerConstraint)
+            let eventConstraints = EventItemConstraints(centerX: centerXConstraint, centerY: centerYConstraint, height: heightConstraint, width: widthConstraint)
             eventConstraintDictionary[event] = eventConstraints
             addConstraints(eventConstraints.asList())
         }
@@ -191,19 +192,18 @@ class ScrubberBar: UIView {
     //MARK: Helper Methods
     
     /**
-    Get the leading constant for leading constraint
+    Get the horizontal center position for centerX constraint
     
-    :param: width Width of item
     :param: index Expected index position of the item (0 -> 1)
     
-    :returns: Leading constraint constant for a view on the scrubber bar. Zero if invalid index
+    :returns: Center constraint constant for a view on the scrubber bar. Zero if invalid index
     */
-    func leadingValueForItem(width: CGFloat, index: Float) -> CGFloat {
-        if index < 0 || index > 1 || width < 0 {
+    func centerValueForItem(index: Float) -> CGFloat {
+        if index < 0 || index > 1 {
             return 0
         }
         
-        return (scrubBarWidth * CGFloat(index)) - 0.5*width + layer.cornerRadius
+        return (scrubBarWidth * CGFloat(index)) + layer.cornerRadius
     }
     
     /**

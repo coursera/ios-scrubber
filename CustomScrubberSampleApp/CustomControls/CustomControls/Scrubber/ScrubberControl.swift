@@ -110,7 +110,7 @@ public protocol ScrubberControlEventsDelegate {
     var scrubberElement = ScrubberElement()
     var scrubberBar = ScrubberBar()
     
-    private var scrubberElementLeadingConstraint: NSLayoutConstraint?
+    private var scrubberElementCenterConstraint: NSLayoutConstraint?
     
     //MARK: Fundamental Methods
     
@@ -168,10 +168,9 @@ public protocol ScrubberControlEventsDelegate {
         
         
         // Control Element Constraint
-        let elementWidth = self.scrubberElement.frame.width
-        let leadingValue = scrubberBar.leadingValueForItem(elementWidth, index: 0)
-        scrubberElementLeadingConstraint = NSLayoutConstraint(item: scrubberElement, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: scrubberBar, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: leadingValue)
-        constraintsArray.append(scrubberElementLeadingConstraint!)
+        let centerValue = scrubberBar.centerValueForItem(0)
+        scrubberElementCenterConstraint = NSLayoutConstraint(item: scrubberElement, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: scrubberBar, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: centerValue)
+        constraintsArray.append(scrubberElementCenterConstraint!)
         constraintsArray.append(NSLayoutConstraint(item: scrubberElement, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: scrubberBar, attribute: NSLayoutAttribute.Height, multiplier: 3.5, constant: 1.0))
         constraintsArray.append(NSLayoutConstraint(item: scrubberElement, attribute: NSLayoutAttribute.Width , relatedBy: NSLayoutRelation.Equal, toItem: scrubberBar, attribute: NSLayoutAttribute.Height, multiplier: 2.0, constant: 1.0))
         constraintsArray.append(NSLayoutConstraint(item: scrubberElement.scrubber, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: scrubberBar, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 1.0))
@@ -181,17 +180,14 @@ public protocol ScrubberControlEventsDelegate {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        if let leadingConstraint = scrubberElementLeadingConstraint {
-            let elementWidth = scrubberElement.frame.width
-            leadingConstraint.constant = scrubberBar.leadingValueForItem(elementWidth, index: scrubberElement.index)
+        
+        if let centerConstraint = scrubberElementCenterConstraint {
+            centerConstraint.constant = scrubberBar.centerValueForItem(scrubberElement.index)
         }
         
         #if DEBUG
             checkLayoutForAmbiguity()
         #endif
-        
-        // Forces update of the view hierarchy so ScrubberControl can get the most relevant values of ScrubberBar frame for setting up autolayout constraints
-        self.layoutIfNeeded()
     }
     
     func checkLayoutForAmbiguity() {

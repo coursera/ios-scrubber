@@ -56,18 +56,16 @@ class ScrubberControlTests: XCTestCase {
         XCTAssertEqual(scrubber.scrubberBar.events()[0].color, UIColor.whiteColor(), "First event overwrote first one!")
     }
     
-    func testScrubberBar_leadingValue() {
+    func testScrubberBar_centerValue() {
         
         // Hard to Test Valid Values
-        XCTAssertEqual(scrubber.scrubberBar.leadingValueForItem(0, index: 0), 0, "Did not pass valid test {0,0}")
-        XCTAssertEqual(scrubber.scrubberBar.leadingValueForItem(10, index: 0), -5, "Did not pass valid test {10,0}")
-        XCTAssertEqual(scrubber.scrubberBar.leadingValueForItem(10, index: 1), 95, "Did not pass valid test {10,1}")
-        XCTAssertEqual(Int(scrubber.scrubberBar.leadingValueForItem(10, index: 0.3)), 25, "Did not pass balid test {10,0.3}")
+        XCTAssertEqual(scrubber.scrubberBar.centerValueForItem(0), 0, "Did not pass valid test for index: 0")
+        XCTAssertEqual(scrubber.scrubberBar.centerValueForItem(1), 100, "Did not pass valid test for index: 1")
+        XCTAssertEqual(Int(scrubber.scrubberBar.centerValueForItem(0.3)), 30, "Did not pass balid test for index: 0.3")
         
         // Test Invalid Values
-        XCTAssertEqual(scrubber.scrubberBar.leadingValueForItem(-0.5, index: 0), 0, "Did not pass invalid test {-0.5,0}")
-        XCTAssertEqual(scrubber.scrubberBar.leadingValueForItem(10, index: -10), 0, "Did not pass invalid test {10,-10}")
-        XCTAssertEqual(scrubber.scrubberBar.leadingValueForItem(10, index: 10), 0, "Did not pass invalid test {10,10}")
+        XCTAssertEqual(scrubber.scrubberBar.centerValueForItem(-10), 0, "Did not pass invalid test for index: -10")
+        XCTAssertEqual(scrubber.scrubberBar.centerValueForItem(10), 0, "Did not pass invalid test for index: 10")
         
     }
     
