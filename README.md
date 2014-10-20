@@ -8,12 +8,14 @@
 ## Features
 * Drop in support into Storyboard with Custom Attributes for component coloring or via frame initialization
 * Autolayout should handle size class changes automatically
-![Autolayout Demo](/readme_images/autolayout_rotation.gif?raw=true)
+
+       ![Autolayout Demo](/readme_images/autolayout_rotation.gif?raw=true)
+
 * Buffer fill bar to indicate amount of an item (Ex: video) has been downloaded
 * Dynamic scrubber element responds to user drag gestures
 * Ability to add events on the ScrubberBar which can execute closures when scrubber element surpasses their index
 
-![ScrubberEvent Demo](/readme_images/scrubberEventFire.gif?raw=true)
+       ![ScrubberEvent Demo](/readme_images/scrubberEventFire.gif?raw=true)
 
 ## Known Issues
 * Control supports Live Rendering in Storyboard, however the Designable feature in Xcode 'Times Out' when loaded the custom view
